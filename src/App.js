@@ -50,64 +50,6 @@ function Home() {
   );
 }
 
-function PhishingSim() {
-  const flags = [
-    { id: 1, tip: "Email address misspelling", text: "headtecher@school-ac.uk" },
-    { id: 2, tip: "External sender warning banner", text: "⚠️ This email came from outside your organisation" },
-    { id: 3, tip: "Unusual download link", text: "Click here to download the updated Safeguarding Policy" },
-    { id: 4, tip: "Urgent threat tactic", text: "Failure to respond within 24 hours may result in HR action." },
-    { id: 5, tip: "Spelling error in signature", text: "The Safeguarding Officr" },
-  ];
-
-  const [foundFlags, setFoundFlags] = useState([]);
-
-  const handleFlagClick = (id) => {
-    if (!foundFlags.includes(id)) {
-      setFoundFlags([...foundFlags, id]);
-    }
-  };
-
-  return (
-    <section className="max-w-3xl mx-auto py-12">
-      <h2 className="text-3xl font-bold text-blue-600 mb-6">Phishing Simulation</h2>
-
-      <div onClick={() => handleFlagClick(2)} className="bg-yellow-100 text-yellow-800 border-l-4 border-yellow-500 p-3 rounded mb-4 cursor-pointer">
-        ⚠️ This email came from outside your organisation
-      </div>
-
-      <div className="bg-white shadow-md rounded border text-sm">
-        <div className="px-4 py-2 border-b text-gray-500">
-          From: <span onClick={() => handleFlagClick(1)} className="text-black cursor-pointer hover:bg-yellow-100">headtecher@school-ac.uk</span>
-        </div>
-        <div className="px-4 py-2 border-b text-gray-500">Subject: Mandatory Safeguarding Policy Update</div>
-        <div className="p-4 space-y-4 text-gray-800">
-          <p>Dear Staff,</p>
-          <p>
-            Please <span onClick={() => handleFlagClick(3)} className="text-blue-600 underline cursor-pointer hover:bg-yellow-100">click here to download the updated Safeguarding Policy</span> which is required by Ofsted.
-          </p>
-          <p>
-            <span onClick={() => handleFlagClick(4)} className="cursor-pointer hover:bg-yellow-100">Failure to respond within 24 hours may result in HR action.</span>
-          </p>
-          <p className="mt-4">
-            Regards,<br />
-            <span onClick={() => handleFlagClick(5)} className="cursor-pointer hover:bg-yellow-100">The Safeguarding Officr</span>
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-6 text-lg">
-        You’ve found <span className="font-bold">{foundFlags.length}</span> of 5 red flags.
-      </div>
-
-      {foundFlags.length === 5 && (
-        <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
-          ✅ Excellent! You correctly identified all suspicious elements in the email.
-        </div>
-      )}
-    </section>
-  );
-}
-
 function Login() {
   return (
     <section className="max-w-md mx-auto py-12">
@@ -180,6 +122,63 @@ function AdminPanel() {
         <li>Certificates Issued: 21</li>
         <li>Export Reports (Coming soon)</li>
       </ul>
+    </section>
+  );
+}
+
+function PhishingSim() {
+  const flags = [1, 2, 3, 4, 5];
+  const [foundFlags, setFoundFlags] = useState([]);
+  const [wrongAttempts, setWrongAttempts] = useState(0);
+
+  const handleFlagClick = (id) => {
+    if (!foundFlags.includes(id)) {
+      setFoundFlags([...foundFlags, id]);
+    }
+  };
+
+  const handleWrongClick = () => {
+    setWrongAttempts(wrongAttempts + 1);
+  };
+
+  return (
+    <section className="max-w-3xl mx-auto py-12">
+      <h2 className="text-3xl font-bold text-blue-600 mb-6">Phishing Simulation</h2>
+
+      <div className="bg-white shadow-md rounded border text-sm">
+        <div className="px-4 py-2 border-b text-gray-500">
+          From: <span onClick={() => handleFlagClick(1)} className="text-black cursor-pointer">headtecher@school-ac.uk</span>
+        </div>
+        <div className="px-4 py-2 border-b text-gray-500">
+          Subject: Mandatory Safeguarding Policy Update
+        </div>
+        <div className="px-4 py-2 border-b text-yellow-800 bg-yellow-100 border-l-4 border-yellow-500 cursor-pointer" onClick={() => handleFlagClick(2)}>
+          ⚠️ This email came from outside your organisation
+        </div>
+        <div className="p-4 space-y-4 text-gray-800">
+          <p onClick={handleWrongClick}>Dear Staff,</p>
+          <p>
+            Please <span onClick={() => handleFlagClick(3)} className="text-blue-600 underline cursor-pointer">click here to download the updated Safeguarding Policy</span> which is required by Ofsted.
+          </p>
+          <p>
+            <span onClick={() => handleFlagClick(4)} className="cursor-pointer">Failure to respond within 24 hours may result in HR action.</span>
+          </p>
+          <p className="mt-4">
+            Regards,<br />
+            <span onClick={() => handleFlagClick(5)} className="cursor-pointer">The Safeguarding Officr</span>
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-6 text-lg">
+        You’ve found <span className="font-bold">{foundFlags.length}</span> of 5 red flags. Mistakes: <span className="text-red-600 font-bold">{wrongAttempts}</span>
+      </div>
+
+      {foundFlags.length === 5 && (
+        <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
+          ✅ Excellent! You correctly identified all suspicious elements in the email.
+        </div>
+      )}
     </section>
   );
 }
