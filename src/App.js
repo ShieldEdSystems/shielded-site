@@ -131,14 +131,14 @@ function PhishingSim() {
   const [foundFlags, setFoundFlags] = useState([]);
   const [wrongAttempts, setWrongAttempts] = useState(0);
 
-  const handleFlagClick = (id) => {
-    if (!foundFlags.includes(id)) {
-      setFoundFlags([...foundFlags, id]);
+  const handleClick = (id, isFlag) => {
+    if (isFlag) {
+      if (!foundFlags.includes(id)) {
+        setFoundFlags([...foundFlags, id]);
+      }
+    } else {
+      setWrongAttempts(wrongAttempts + 1);
     }
-  };
-
-  const handleWrongClick = () => {
-    setWrongAttempts(wrongAttempts + 1);
   };
 
   return (
@@ -147,26 +147,27 @@ function PhishingSim() {
 
       <div className="bg-white shadow-md rounded border text-sm">
         <div className="px-4 py-2 border-b text-gray-500">
-          From: <span onClick={() => handleFlagClick(1)} className="text-black cursor-pointer">headtecher@school-ac.uk</span>
+          From: <span onClick={() => handleClick(1, true)} className="text-black cursor-pointer">headtecher@school-ac.uk</span>
         </div>
-        <div className="px-4 py-2 border-b text-gray-500">
+        <div className="px-4 py-2 border-b text-gray-500" onClick={() => handleClick(null, false)}>
           Subject: Mandatory Safeguarding Policy Update
         </div>
-        <div className="px-4 py-2 border-b text-yellow-800 bg-yellow-100 border-l-4 border-yellow-500 cursor-pointer" onClick={() => handleFlagClick(2)}>
+        <div className="px-4 py-2 border-b text-yellow-800 bg-yellow-100 border-l-4 border-yellow-500 cursor-pointer" onClick={() => handleClick(2, true)}>
           ⚠️ This email came from outside your organisation
         </div>
         <div className="p-4 space-y-4 text-gray-800">
-          <p onClick={handleWrongClick}>Dear Staff,</p>
+          <p onClick={() => handleClick(null, false)}>Dear Staff,</p>
           <p>
-            Please <span onClick={() => handleFlagClick(3)} className="text-blue-600 underline cursor-pointer">click here to download the updated Safeguarding Policy</span> which is required by Ofsted.
+            Please <span onClick={() => handleClick(3, true)} className="text-blue-600 underline cursor-pointer">click here to download the updated Safeguarding Policy</span> which is required by Ofsted.
           </p>
           <p>
-            <span onClick={() => handleFlagClick(4)} className="cursor-pointer">Failure to respond within 24 hours may result in HR action.</span>
+            <span onClick={() => handleClick(4, true)} className="cursor-pointer">Failure to respond within 24 hours may result in HR action.</span>
           </p>
           <p className="mt-4">
             Regards,<br />
-            <span onClick={() => handleFlagClick(5)} className="cursor-pointer">The Safeguarding Officr</span>
+            <span onClick={() => handleClick(5, true)} className="cursor-pointer">The Safeguarding Officr</span>
           </p>
+          <p onClick={() => handleClick(null, false)}>For more information, contact safeguarding@school.ac.uk</p>
         </div>
       </div>
 
