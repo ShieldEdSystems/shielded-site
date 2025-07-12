@@ -1,4 +1,4 @@
-// ShieldEd - Site with Phishing Simulation Engine (React + Tailwind)
+// ShieldEd - Full Working App.js (React + Tailwind, Vercel-ready)
 
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
@@ -10,12 +10,12 @@ function App() {
         <header className="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-10">
           <h1 className="text-2xl font-bold text-blue-600">ShieldEd</h1>
           <nav className="space-x-6 text-sm font-medium">
-            <Link to="/" className="hover:text-blue-600">Home</Link>
-            <Link to="/simulations" className="hover:text-blue-600">Simulations</Link>
-            <Link to="/simulations/phishing" className="hover:text-blue-600">Phishing Sim</Link>
-            <Link to="/dashboard" className="hover:text-blue-600">Dashboard</Link>
-            <Link to="/admin" className="hover:text-blue-600">Admin</Link>
-            <Link to="/login" className="hover:text-blue-600">Login</Link>
+            <Link to="/">Home</Link>
+            <Link to="/simulations">Simulations</Link>
+            <Link to="/simulations/phishing">Phishing Sim</Link>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/admin">Admin</Link>
+            <Link to="/login">Login</Link>
           </nav>
         </header>
 
@@ -46,35 +46,22 @@ function Home() {
         <Link to="/simulations" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-md transition">Try a Simulation</Link>
         <Link to="/dashboard" className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-xl transition">View Your Dashboard</Link>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-        <FeatureCard title="Real Phishing Simulations" description="Test your instincts with emails that look just like the real thing — no prior warning." />
-        <FeatureCard title="GDPR Training That Sticks" description="Interactive data handling decisions replace boring slide decks." />
-        <FeatureCard title="Earn CPD Credits" description="Teachers receive certified credit automatically upon completion." />
-      </div>
     </section>
-  );
-}
-
-function FeatureCard({ title, description }) {
-  return (
-    <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-      <h3 className="font-semibold text-lg text-blue-600 mb-2">{title}</h3>
-      <p className="text-sm text-gray-600">{description}</p>
-    </div>
   );
 }
 
 function PhishingSim() {
   const flags = [
-    { id: 1, text: "suspicious@adminmail.com", found: false },
-    { id: 2, text: "Click here to reset your password immediately", found: false },
-    { id: 3, text: "Urgent action required", found: false },
-    { id: 4, text: "Spelling mistake in school name", found: false },
-    { id: 5, text: "Unusual attachment: ResetForm.exe", found: false },
+    { id: 1, tip: "Email address misspelling", text: "headtecher@school-ac.uk" },
+    { id: 2, tip: "External sender warning banner", text: "⚠️ This email came from outside your organisation" },
+    { id: 3, tip: "Unusual download link", text: "Click here to download the updated Safeguarding Policy" },
+    { id: 4, tip: "Urgent threat tactic", text: "Failure to respond within 24 hours may result in HR action." },
+    { id: 5, tip: "Spelling error in signature", text: "The Safeguarding Officr" },
   ];
+
   const [foundFlags, setFoundFlags] = useState([]);
 
-  const toggleFlag = (id) => {
+  const handleFlagClick = (id) => {
     if (!foundFlags.includes(id)) {
       setFoundFlags([...foundFlags, id]);
     }
@@ -83,18 +70,29 @@ function PhishingSim() {
   return (
     <section className="max-w-3xl mx-auto py-12">
       <h2 className="text-3xl font-bold text-blue-600 mb-6">Phishing Simulation</h2>
-      <p className="mb-4 text-gray-700">Click on anything you think is suspicious in this fake staff email.</p>
 
-      <div className="bg-white border border-red-300 p-6 rounded-xl shadow space-y-4 text-left">
-        {flags.map((item) => (
-          <div
-            key={item.id}
-            className={`p-3 rounded cursor-pointer ${foundFlags.includes(item.id) ? "bg-green-100 border-l-4 border-green-500" : "hover:bg-yellow-100"}`}
-            onClick={() => toggleFlag(item.id)}
-          >
-            {item.text}
-          </div>
-        ))}
+      <div onClick={() => handleFlagClick(2)} className="bg-yellow-100 text-yellow-800 border-l-4 border-yellow-500 p-3 rounded mb-4 cursor-pointer">
+        ⚠️ This email came from outside your organisation
+      </div>
+
+      <div className="bg-white shadow-md rounded border text-sm">
+        <div className="px-4 py-2 border-b text-gray-500">
+          From: <span onClick={() => handleFlagClick(1)} className="text-black cursor-pointer hover:bg-yellow-100">headtecher@school-ac.uk</span>
+        </div>
+        <div className="px-4 py-2 border-b text-gray-500">Subject: Mandatory Safeguarding Policy Update</div>
+        <div className="p-4 space-y-4 text-gray-800">
+          <p>Dear Staff,</p>
+          <p>
+            Please <span onClick={() => handleFlagClick(3)} className="text-blue-600 underline cursor-pointer hover:bg-yellow-100">click here to download the updated Safeguarding Policy</span> which is required by Ofsted.
+          </p>
+          <p>
+            <span onClick={() => handleFlagClick(4)} className="cursor-pointer hover:bg-yellow-100">Failure to respond within 24 hours may result in HR action.</span>
+          </p>
+          <p className="mt-4">
+            Regards,<br />
+            <span onClick={() => handleFlagClick(5)} className="cursor-pointer hover:bg-yellow-100">The Safeguarding Officr</span>
+          </p>
+        </div>
       </div>
 
       <div className="mt-6 text-lg">
@@ -103,7 +101,7 @@ function PhishingSim() {
 
       {foundFlags.length === 5 && (
         <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
-          ✅ Well done! You identified all phishing indicators correctly.
+          ✅ Excellent! You correctly identified all suspicious elements in the email.
         </div>
       )}
     </section>
@@ -143,8 +141,6 @@ function Simulations() {
       <h2 className="text-2xl font-semibold mb-6">Simulations</h2>
       <div className="space-y-6">
         <SimulationCard title="Phishing Email Simulation" description="Click-through exercise: find 5 red flags." to="/simulations/phishing" />
-        <SimulationCard title="GDPR Data Scenario" description="Make the right choice on a fake data request." />
-        <SimulationCard title="Incident Response Drill" description="Simulated breach response: act fast and smart." />
       </div>
     </section>
   );
