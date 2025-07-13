@@ -145,27 +145,30 @@ function PhishingSim() {
     <section className="max-w-3xl mx-auto py-12">
       <h2 className="text-3xl font-bold text-blue-600 mb-6">Phishing Simulation</h2>
 
-      <div className="bg-white shadow-md rounded border text-sm">
+      <div className="bg-white shadow rounded border text-sm">
+        <div className="bg-gray-100 p-3 border-b text-xs text-gray-600 flex items-center justify-between">
+          <span>Inbox</span><span>1 of 132</span>
+        </div>
         <div className="px-4 py-2 border-b text-gray-500">
-          From: <span onClick={() => handleClick(1, true)} className="text-black cursor-pointer">headtecher@school-ac.uk</span>
+          From: <span onClick={() => handleClick(1, true)} className="text-black">headtecher@school-ac.uk</span>
         </div>
         <div className="px-4 py-2 border-b text-gray-500" onClick={() => handleClick(null, false)}>
           Subject: Mandatory Safeguarding Policy Update
         </div>
-        <div className="px-4 py-2 border-b text-yellow-800 bg-yellow-100 border-l-4 border-yellow-500 cursor-pointer" onClick={() => handleClick(2, true)}>
+        <div className="px-4 py-2 border-b text-yellow-800 bg-yellow-100 border-l-4 border-yellow-500" onClick={() => handleClick(2, true)}>
           ⚠️ This email came from outside your organisation
         </div>
         <div className="p-4 space-y-4 text-gray-800">
           <p onClick={() => handleClick(null, false)}>Dear Staff,</p>
           <p>
-            Please <span onClick={() => handleClick(3, true)} className="text-blue-600 underline cursor-pointer">click here to download the updated Safeguarding Policy</span> which is required by Ofsted.
+            Please <span onClick={() => handleClick(3, true)} className="text-blue-600 underline">click here to download the updated Safeguarding Policy</span> which is required by Ofsted.
           </p>
           <p>
-            <span onClick={() => handleClick(4, true)} className="cursor-pointer">Failure to respond within 24 hours may result in HR action.</span>
+            <span onClick={() => handleClick(4, true)}>Failure to respond within 24 hours may result in HR action.</span>
           </p>
           <p className="mt-4">
             Regards,<br />
-            <span onClick={() => handleClick(5, true)} className="cursor-pointer">The Safeguarding Officr</span>
+            <span onClick={() => handleClick(5, true)}>The Safeguarding Officr</span>
           </p>
           <p onClick={() => handleClick(null, false)}>For more information, contact safeguarding@school.ac.uk</p>
         </div>
