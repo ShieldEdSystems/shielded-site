@@ -1,4 +1,4 @@
-// ShieldEd - Full Working App.js (React + Tailwind, Vercel-ready)
+// ShieldEd - Full Working App.js (React + Tailwind, Vercel-ready) – Fixed Blank Page Bug
 
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
@@ -51,7 +51,6 @@ function Home() {
 }
 
 function PhishingSim() {
-  const flags = [1, 2, 3, 4, 5];
   const [foundFlags, setFoundFlags] = useState([]);
   const [wrongAttempts, setWrongAttempts] = useState(0);
 
@@ -61,7 +60,7 @@ function PhishingSim() {
         setFoundFlags([...foundFlags, id]);
       }
     } else {
-      setWrongAttempts(wrongAttempts + 1);
+      setWrongAttempts(prev => prev + 1);
     }
   };
 
@@ -75,7 +74,6 @@ function PhishingSim() {
       <h2 className="text-3xl font-bold text-blue-600 mb-6">Phishing Simulation</h2>
 
       <div className="bg-white shadow rounded border text-sm">
-        {/* Simulated Gmail-style header */}
         <div className="px-4 py-3 border-b flex items-center">
           <div className="w-10 h-10 bg-gray-300 rounded-full mr-3"></div>
           <div>
@@ -84,17 +82,14 @@ function PhishingSim() {
           </div>
         </div>
 
-        {/* External warning */}
         <div onClick={() => handleClick(2, true)} className={`px-4 py-2 border-b text-yellow-800 bg-yellow-100 border-l-4 border-yellow-500 cursor-pointer ${flagStyle(2)}`}>
           ⚠️ This email came from outside your organisation
         </div>
 
-        {/* Subject */}
-        <div onClick={() => handleClick(null, false)} className="px-4 py-3 border-b text-lg font-semibold text-gray-800">
+        <div className="px-4 py-3 border-b text-lg font-semibold text-gray-800">
           Mandatory Safeguarding Policy Update
         </div>
 
-        {/* Email body */}
         <div className="p-4 space-y-4 text-gray-800">
           <p onClick={() => handleClick(null, false)}>Dear Staff,</p>
           <p>
@@ -110,8 +105,7 @@ function PhishingSim() {
           <p onClick={() => handleClick(null, false)}>For more information, contact safeguarding@school.ac.uk</p>
         </div>
 
-        {/* From line click */}
-        <div className="px-4 py-2 border-t text-gray-500 text-xs" onClick={() => handleClick(1, true)}>
+        <div className="px-4 py-2 border-t text-gray-500 text-xs cursor-pointer" onClick={() => handleClick(1, true)}>
           From: headtecher@school-ac.uk
         </div>
       </div>
@@ -188,6 +182,19 @@ function AdminPanel() {
         <li>Certificates Issued: 21</li>
         <li>Export Reports (Coming soon)</li>
       </ul>
+    </section>
+  );
+}
+
+function Login() {
+  return (
+    <section className="max-w-md mx-auto py-12">
+      <h2 className="text-xl font-semibold mb-4">Login</h2>
+      <form className="space-y-4">
+        <input type="email" placeholder="Email" className="w-full p-2 border rounded" />
+        <input type="password" placeholder="Password" className="w-full p-2 border rounded" />
+        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Login</button>
+      </form>
     </section>
   );
 }
